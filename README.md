@@ -11,4 +11,7 @@ The problem of GAN training difficulty is well highlighted in the following arti
 Forked from NVlabs/stylegan2
 StyleGAN2 - Official TensorFlow Implementation
 
+Forked from manicman1999/StyleGAN2-Tensorflow-2.0
+StyleGAN 2 in Tensorflow 2.0
+
 
