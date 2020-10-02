@@ -8,11 +8,8 @@ The images were downloaded from https://wiki.cancerimagingarchive.net/display/Pu
 Stylegan2 training is underway to obtain more control over the stability of convergence. 
 The problem of GAN training difficulty is well highlighted in the following article: https://towardsdatascience.com/10-lessons-i-learned-training-generative-adversarial-networks-gans-for-a-year-c9071159628
 
-Forked from NVlabs/stylegan2
-StyleGAN2 - Official TensorFlow Implementation
-
-Forked from manicman1999/StyleGAN2-Tensorflow-2.0
-StyleGAN 2 in Tensorflow 2.0
+Run Colab notebook
+https://colab.research.google.com/drive/13iOl4zu-YjCaov_NAl_icU479zBh5uaI?usp=sharing
 
 
 
