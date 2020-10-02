@@ -1,5 +1,5 @@
 # stylegan2 for radiology
-Unofficial implementation of StyleGAN2 for artificial mammograms generation to increase the mammography datasets without using the usual data augmentation methods.
+ StyleGAN2 implementation for artificial mammograms generation to increase the mammography datasets without using the usual data augmentation methods.
 
 Convolutional Neural Networks can be trained for cancer classification using datasets containing both the original images and those created synthetically using Stylegan2.  
 
