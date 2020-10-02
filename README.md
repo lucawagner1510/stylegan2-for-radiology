@@ -11,6 +11,9 @@ The problem of GAN training difficulty is well highlighted in the following arti
 To train Stylegan2 for radiology go to:
 https://colab.research.google.com/drive/13iOl4zu-YjCaov_NAl_icU479zBh5uaI?usp=sharing
 
+Code and mammograms preprocessed dataset on: 
+https://drive.google.com/drive/folders/1ZUYPbVMJECE9U4MSr-ykc6deaj51FF_W?usp=sharing
+
 
 
 
