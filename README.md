@@ -14,4 +14,6 @@ StyleGAN2 - Official TensorFlow Implementation
 Forked from manicman1999/StyleGAN2-Tensorflow-2.0
 StyleGAN 2 in Tensorflow 2.0
 
+Code: https://drive.google.com/drive/folders/1ZUYPbVMJECE9U4MSr-ykc6deaj51FF_W?usp=sharing
+
 
