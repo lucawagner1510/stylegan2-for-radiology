@@ -65,11 +65,13 @@ class dataGenerator(object):
             print("Converting from images to numpy files...")
 
         names = []
-
-        for dirpath, dirnames, filenames in os.walk("data/" + folder):
-            for filename in [f for f in filenames if (f.endswith(".jpg") or f.endswith(".png") or f.endswith(".JPEG"))]:
-                fname = os.path.join(dirpath, filename)
-                names.append(fname)
+        
+        # increase data with repeat 10 times
+        for j in range(10):
+          for dirpath, dirnames, filenames in os.walk("data/" + folder):
+              for filename in [f for f in filenames if (f.endswith(".jpg") or f.endswith(".png") or f.endswith(".JPEG"))]:
+                  fname = os.path.join(dirpath, filename)
+                  names.append(fname)
 
         np.random.shuffle(names)
 

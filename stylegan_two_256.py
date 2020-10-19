@@ -22,10 +22,10 @@ from conv_mod import Conv2DMod
 
 im_size = int(256)
 latent_size = int(512)
-BATCH_SIZE = 6
+BATCH_SIZE = 20
 directory = "images"
 
-cha = int(48)
+cha = int(24)
 
 n_layers = int(log2(im_size) - 1)
 
@@ -146,7 +146,7 @@ def from_rgb(inp, conc = None):
 
 class GAN(object):
 
-    def __init__(self, steps = 1, lr = 0.0001, decay = 0.00001):
+    def __init__(self, steps = 1, lr = 0.00001, decay = 0.001):
 
         #Models
         self.D = None
@@ -344,7 +344,7 @@ class GAN(object):
 
 class StyleGAN(object):
 
-    def __init__(self, steps = 1, lr = 0.0001, decay = 0.00001, silent = True):
+    def __init__(self, steps = 1, lr = 0.00001, decay = 0.00001, silent = True):
 
         #Init GAN and Eval Models
         self.GAN = GAN(steps = steps, lr = lr, decay = decay)
@@ -492,17 +492,17 @@ class StyleGAN(object):
     def evaluate(self, num = 0, trunc = 1.0):
         
 
-        n1 = noiseList(64)
-        n2 = nImage(64)
-        trunc = np.ones([64, 1]) * trunc
+        n1 = noiseList(4)
+        n2 = nImage(4)
+        trunc = np.ones([4, 1]) * trunc
 
 
         generated_images = self.GAN.GM.predict(n1 + [n2], batch_size = BATCH_SIZE)
 
         r = []
 
-        for i in range(0, 64, 8):
-            r.append(np.concatenate(generated_images[i:i+8], axis = 1))
+        for i in range(0, 4, 2):
+            r.append(np.concatenate(generated_images[i:i+2], axis = 1))
 
         c1 = np.concatenate(r, axis = 0)
         c1 = np.clip(c1, 0.0, 1.0)
@@ -517,8 +517,8 @@ class StyleGAN(object):
 
         r = []
 
-        for i in range(0, 64, 8):
-            r.append(np.concatenate(generated_images[i:i+8], axis = 1))
+        for i in range(0, 4, 2):
+            r.append(np.concatenate(generated_images[i:i+2], axis = 1))
 
         c1 = np.concatenate(r, axis = 0)
         c1 = np.clip(c1, 0.0, 1.0)
@@ -528,9 +528,9 @@ class StyleGAN(object):
         x.save("/content/drive/My Drive/stylegan/Results/i"+str(num)+"-ema.png")
 
         #Mixing Regularities
-        nn = noise(8)
-        n1 = np.tile(nn, (8, 1))
-        n2 = np.repeat(nn, 8, axis = 0)
+        nn = noise(2)
+        n1 = np.tile(nn, (2, 1))
+        n2 = np.repeat(nn, 2, axis = 0)
         tt = int(n_layers / 2)
 
         p1 = [n1] * tt
@@ -538,13 +538,13 @@ class StyleGAN(object):
 
         latent = p1 + [] + p2
 
-        generated_images = self.GAN.GMA.predict(latent + [nImage(64), trunc], batch_size = BATCH_SIZE)
+        generated_images = self.GAN.GMA.predict(latent + [nImage(4), trunc], batch_size = BATCH_SIZE)
         #generated_images = self.generateTruncated(latent, trunc = trunc)
 
         r = []
 
-        for i in range(0, 64, 8):
-            r.append(np.concatenate(generated_images[i:i+8], axis = 0))
+        for i in range(0, 4, 2):
+            r.append(np.concatenate(generated_images[i:i+2], axis = 0))
 
         c1 = np.concatenate(r, axis = 1)
         c1 = np.clip(c1, 0.0, 1.0)
@@ -558,7 +558,7 @@ class StyleGAN(object):
         #Get W's center of mass
         if self.av.shape[0] == 44: #44 is an arbitrary value
             print("Approximating W center of mass")
-            self.av = np.mean(self.GAN.S.predict(noise(2000), batch_size = 64), axis = 0)
+            self.av = np.mean(self.GAN.S.predict(noise(2000), batch_size = 4), axis = 0)
             self.av = np.expand_dims(self.av, axis = 0)
 
         if noi.shape[0] == 44:
@@ -576,8 +576,8 @@ class StyleGAN(object):
         if outImage:
             r = []
 
-            for i in range(0, 64, 8):
-                r.append(np.concatenate(generated_images[i:i+8], axis = 0))
+            for i in range(0, 4, 2):
+                r.append(np.concatenate(generated_images[i:i+2], axis = 0))
 
             c1 = np.concatenate(r, axis = 1)
             c1 = np.clip(c1, 0.0, 1.0)
@@ -639,13 +639,15 @@ class StyleGAN(object):
 
 if __name__ == "__main__":
     
-    model = StyleGAN(lr = 0.0001, silent = False)
-    #model.load(5)
+    model = StyleGAN(lr = 0.000001, silent = False)
+    #model.load(0)
     model.evaluate(0)
    
-
+    
     while model.GAN.steps  < 1000001:
         model.train()
+        
+
 
     """
     model.load(31)
