@@ -21,7 +21,13 @@ the aim of this experiment was to increase a small dataset (3200 images) using G
 Initially the network did not converge because the learning rate was too high and so I reduced it to lr = 0.000001.
 
 However, the dataset is too small: GANs need a lot more images to give good results.
-So if you have a small dataset, creating artificial images with GANs doesn't seem like an effective solution
+So if you have a small dataset, creating artificial images with GANs doesn't seem like an effective solution, but...
+
+...I found this very intriguing paper https://github.com/lucidrains/stylegan2-pytorch where the author says:
+
+"However, in the month of May 2020, researchers all across the world independently converged on a simple technique to reduce that number to as low as 1-2k. That simple idea was to differentiably augment all images, generated or real, going into the discriminator during training."
+
+I'll investigate on it using his stylegan2 implementation in Pytorch
 .
 
 
