@@ -5,7 +5,9 @@ import os
 import pdb
 
 # Print iterations progress
-def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 50, fill = '█'):
+def printProgressBar(
+    iteration, total, prefix="", suffix="", decimals=1, length=50, fill="█"
+):
     """
     Call in a loop to create terminal progress bar
     @params:
@@ -19,21 +21,16 @@ def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, 
     """
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
     filledLength = int(length * iteration // total)
-    bar = fill * filledLength + '-' * (length - filledLength)
-    print('\r %s |%s| %s%% %s' % (prefix, bar, percent, suffix), end = '\r')
+    bar = fill * filledLength + "-" * (length - filledLength)
+    print("\r %s |%s| %s%% %s" % (prefix, bar, percent, suffix), end="\r")
     # Print New Line on Complete
     if iteration == total:
         print()
         print()
 
 
-
-
-
-
 class dataGenerator(object):
-
-    def __init__(self, folder, im_size, mss = (1024 ** 3), flip = True, verbose = True):
+    def __init__(self, folder, im_size, mss=(1024 ** 3), flip=True, verbose=True):
         self.folder = folder
         self.im_size = im_size
         self.segment_length = mss // (im_size * im_size * 3)
@@ -49,9 +46,14 @@ class dataGenerator(object):
             print("Maximum Segment Size: ", self.segment_length)
 
         try:
-            #pdb.set_trace()
+            # pdb.set_trace()
             # /content/drive/My Drive/stylegan/
-            os.mkdir("/content/drive/My Drive/stylegan/data/" + self.folder + "-npy-" + str(self.im_size))
+            os.mkdir(
+                "/content/drive/My Drive/stylegan/data/"
+                + self.folder
+                + "-npy-"
+                + str(self.im_size)
+            )
         except:
             self.load_from_npy(folder)
             return
@@ -65,20 +67,22 @@ class dataGenerator(object):
             print("Converting from images to numpy files...")
 
         names = []
-        
+
         # increase data with repeat 10 times
         for j in range(10):
-          for dirpath, dirnames, filenames in os.walk("data/" + folder):
-              for filename in [f for f in filenames if (f.endswith(".jpg") or f.endswith(".png") or f.endswith(".JPEG"))]:
-                  fname = os.path.join(dirpath, filename)
-                  names.append(fname)
+            for dirpath, dirnames, filenames in os.walk("data/" + folder):
+                for filename in [
+                    f
+                    for f in filenames
+                    if (f.endswith(".jpg") or f.endswith(".png") or f.endswith(".JPEG"))
+                ]:
+                    fname = os.path.join(dirpath, filename)
+                    names.append(fname)
 
         np.random.shuffle(names)
 
         if self.verbose:
             print(str(len(names)) + " images.")
-
-
 
         kn = 0
         sn = 0
@@ -87,30 +91,52 @@ class dataGenerator(object):
 
         for fname in names:
             if self.verbose:
-                print('\r' + str(sn) + " // " + str(kn) + "\t", end = '\r')
+                print("\r" + str(sn) + " // " + str(kn) + "\t", end="\r")
 
             try:
-                temp = Image.open(fname).convert('RGB').resize((self.im_size, self.im_size), Image.BILINEAR)
+                temp = (
+                    Image.open(fname)
+                    .convert("RGB")
+                    .resize((self.im_size, self.im_size), Image.BILINEAR)
+                )
             except:
                 print("Importing image failed on", fname)
-            temp = np.array(temp, dtype='uint8')
+            temp = np.array(temp, dtype="uint8")
             segment.append(temp)
             kn = kn + 1
 
             if kn >= self.segment_length:
-                np.save("data/" + folder + "-npy-" + str(self.im_size) + "/data-"+str(sn)+".npy", np.array(segment))
+                np.save(
+                    "data/"
+                    + folder
+                    + "-npy-"
+                    + str(self.im_size)
+                    + "/data-"
+                    + str(sn)
+                    + ".npy",
+                    np.array(segment),
+                )
 
                 segment = []
                 kn = 0
                 sn = sn + 1
 
-
-        np.save("data/" + folder + "-npy-" + str(self.im_size) + "/data-"+str(sn)+".npy", np.array(segment))
-
+        np.save(
+            "data/"
+            + folder
+            + "-npy-"
+            + str(self.im_size)
+            + "/data-"
+            + str(sn)
+            + ".npy",
+            np.array(segment),
+        )
 
     def load_from_npy(self, folder):
 
-        for dirpath, dirnames, filenames in os.walk("data/" + folder + "-npy-" + str(self.im_size)):
+        for dirpath, dirnames, filenames in os.walk(
+            "data/" + folder + "-npy-" + str(self.im_size)
+        ):
             for filename in [f for f in filenames if f.endswith(".npy")]:
                 self.segments.append(os.path.join(dirpath, filename))
 
@@ -142,6 +168,4 @@ class dataGenerator(object):
             if self.flip and random.random() < 0.5:
                 out[-1] = np.flip(out[-1], 1)
 
-        return np.array(out).astype('float32') / 255.0
-
-
+        return np.array(out).astype("float32") / 255.0
