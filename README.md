@@ -23,7 +23,7 @@ So if you have a small dataset, creating artificial images with GANs doesn't see
 
 "However, in the month of May 2020, researchers all across the world independently converged on a simple technique to reduce that number to as low as 1-2k. That simple idea was to differentiably augment all images, generated or real, going into the discriminator during training."
 
-I'll investigate on it using his stylegan2 implementation in Pytorch: stylegan2_pytorch.ipynb
+I'll investigate on it using  stylegan2 implementation in Pytorch in Google Colab:  stylegan2_pytorch.ipynb 
 
 
 
